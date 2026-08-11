@@ -707,5 +707,179 @@ window.CANNECTIONS_PUZZLES = [
         cards: ["YUKON", "LIARD", "PEEL", "NAHANNI"]
       }
     ]
+  },
+
+  // Traps: CHUM and PINK read as a friend and a colour; COAL pulls toward Coal Harbour.
+  {
+    id: 25,
+    title: "Super, Natural",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "VANCOUVER NEIGHBOURHOODS",
+        difficulty: 0,
+        cards: ["GASTOWN", "KITSILANO", "YALETOWN", "COMMERCIAL"]
+      },
+      {
+        title: "PACIFIC SALMON",
+        difficulty: 1,
+        cards: ["SOCKEYE", "COHO", "CHUM", "PINK"]
+      },
+      {
+        title: "BRITISH COLUMBIA EXPORTS",
+        difficulty: 2,
+        cards: ["LUMBER", "COAL", "CHERRIES", "COPPER"]
+      },
+      {
+        title: "COASTAL FIRST NATIONS",
+        difficulty: 3,
+        cards: ["HAIDA", "TSIMSHIAN", "HEILTSUK", "NISGA'A"]
+      }
+    ]
+  },
+
+  // Traps: TYEE is also the name for a big spring salmon; SOOKE sounds like a Chinook Jargon word.
+  {
+    id: 26,
+    title: "Skookum",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "VANCOUVER ISLAND TOWNS",
+        difficulty: 0,
+        cards: ["TOFINO", "NANAIMO", "SOOKE", "UCLUELET"]
+      },
+      {
+        title: "OKANAGAN WINE COUNTRY",
+        difficulty: 1,
+        cards: ["KELOWNA", "ICEWINE", "VINEYARD", "PINOT"]
+      },
+      {
+        title: "BRITISH COLUMBIA WILDLIFE",
+        difficulty: 2,
+        cards: ["SPIRIT BEAR", "ORCA", "MARMOT", "ELK"]
+      },
+      {
+        title: "CHINOOK JARGON WORDS STILL IN USE",
+        difficulty: 3,
+        cards: ["SKOOKUM", "POTLATCH", "MUCKAMUCK", "TYEE"]
+      }
+    ]
+  },
+
+  // Traps: GROUSE and CYPRESS read as a bird and a tree; PENDER and SEYMOUR are Vancouver streets too.
+  {
+    id: 27,
+    title: "Hollywood North",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "SHOT IN VANCOUVER",
+        difficulty: 0,
+        cards: ["X-FILES", "DEADPOOL", "RIVERDALE", "SMALLVILLE"]
+      },
+      {
+        title: "NORTH SHORE MOUNTAINS",
+        difficulty: 1,
+        cards: ["GROUSE", "CYPRESS", "SEYMOUR", "HOLLYBURN"]
+      },
+      {
+        title: "WHAT EXPO 86 LEFT BEHIND",
+        difficulty: 2,
+        cards: ["SKYTRAIN", "CANADA PLACE", "SCIENCE WORLD", "BC PLACE"]
+      },
+      {
+        title: "GULF ISLANDS",
+        difficulty: 3,
+        cards: ["SALT SPRING", "GALIANO", "MAYNE", "PENDER"]
+      }
+    ]
+  },
+
+  // Traps: ALOUETTE is a folk song and a CFL team before it is a satellite; CSA fits the acronyms too.
+  {
+    id: 28,
+    title: "Canadarm",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "CANADIAN ASTRONAUTS",
+        difficulty: 0,
+        cards: ["HADFIELD", "GARNEAU", "PAYETTE", "BONDAR"]
+      },
+      {
+        title: "CANADIAN SPACE HARDWARE",
+        difficulty: 1,
+        cards: ["CANADARM", "ANIK", "ALOUETTE", "RADARSAT"]
+      },
+      {
+        title: "CANADIAN FLOPS",
+        difficulty: 2,
+        cards: ["AVRO ARROW", "BRE-X", "MIRABEL", "NORTEL"]
+      },
+      {
+        title: "FEDERAL ACRONYMS",
+        difficulty: 3,
+        cards: ["CSA", "CSIS", "CRTC", "CBSA"]
+      }
+    ]
+  },
+
+  // Traps: MOOSE and CHIPMUNK read as plain wildlife; CREE reads as a language, not a nation.
+  {
+    id: 29,
+    title: "Turtle Island",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "FIRST NATIONS AND PEOPLES",
+        difficulty: 0,
+        cards: ["CREE", "DENE", "MI'KMAQ", "ANISHINAABE"]
+      },
+      {
+        title: "INDIGENOUS FOODS",
+        difficulty: 1,
+        cards: ["BANNOCK", "PEMMICAN", "WILD RICE", "THREE SISTERS"]
+      },
+      {
+        title: "INDIGENOUS MUSICIANS",
+        difficulty: 2,
+        cards: ["TAGAQ", "DUTCHER", "SAINTE-MARIE", "KASHTIN"]
+      },
+      {
+        title: "ENGLISH WORDS FROM INDIGENOUS LANGUAGES",
+        difficulty: 3,
+        cards: ["MOOSE", "KAYAK", "MUSKEG", "CHIPMUNK"]
+      }
+    ]
+  },
+
+  // Traps: DISSOLVE, SUMMON and ASSENT read as ordinary verbs; CHARTER reads as a flight.
+  {
+    id: 30,
+    title: "Notwithstanding",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "FEDERAL PARTIES",
+        difficulty: 0,
+        cards: ["LIBERAL", "CONSERVATIVE", "NDP", "BLOC"]
+      },
+      {
+        title: "ON PARLIAMENT HILL",
+        difficulty: 1,
+        cards: ["PEACE TOWER", "CENTRE BLOCK", "SENATE", "MACE"]
+      },
+      {
+        title: "THE CONSTITUTION, 1982",
+        difficulty: 2,
+        cards: ["PATRIATION", "CHARTER", "NOTWITHSTANDING", "AMENDING FORMULA"]
+      },
+      {
+        title: "WHAT THE GOVERNOR GENERAL DOES",
+        difficulty: 3,
+        cards: ["PROROGUE", "DISSOLVE", "ASSENT", "SUMMON"]
+      }
+    ]
   }
 ];
