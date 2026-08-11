@@ -359,5 +359,179 @@ window.CANNECTIONS_PUZZLES = [
         cards: ["MOLSON", "LABATT", "MOOSEHEAD", "KOKANEE"]
       }
     ]
+  },
+
+  // Traps: SCOFF reads as a Jiggs dinner course; TRINITY reads as a bay, not a town.
+  {
+    id: 13,
+    title: "Long May Your Big Jib Draw",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "PULLED FROM THE ATLANTIC",
+        difficulty: 0,
+        cards: ["COD", "CAPELIN", "SQUID", "LOBSTER"]
+      },
+      {
+        title: "NEWFOUNDLAND COMMUNITIES",
+        difficulty: 1,
+        cards: ["DILDO", "BONAVISTA", "TWILLINGATE", "TRINITY"]
+      },
+      {
+        title: "ON A JIGGS DINNER PLATE",
+        difficulty: 2,
+        cards: ["SALT BEEF", "CABBAGE", "TURNIP", "PEASE PUDDING"]
+      },
+      {
+        title: "NEWFOUNDLAND ENGLISH, DIFFERENT MEANING",
+        difficulty: 3,
+        cards: ["YARN", "SCOFF", "CROOKED", "STUN"]
+      }
+    ]
+  },
+
+  // Traps: TITANIC reads as not-Canadian; LUNENBURG pulls toward the ship that was built there.
+  {
+    id: 14,
+    title: "Bluenose",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "NOVA SCOTIA TOWNS",
+        difficulty: 0,
+        cards: ["LUNENBURG", "TRURO", "ANTIGONISH", "YARMOUTH"]
+      },
+      {
+        title: "CAPE BRETON MUSICIANS",
+        difficulty: 1,
+        cards: ["MACMASTER", "MACISAAC", "RANKIN", "MACNEIL"]
+      },
+      {
+        title: "NOVA SCOTIA ON A PLATE",
+        difficulty: 2,
+        cards: ["DONAIR", "HODGE PODGE", "SOLOMON GUNDY", "RAPPIE PIE"]
+      },
+      {
+        title: "SHIPS IN NOVA SCOTIA HISTORY",
+        difficulty: 3,
+        cards: ["BLUENOSE", "MONT-BLANC", "IMO", "TITANIC"]
+      }
+    ]
+  },
+
+  // Traps: MATTHEW and BROWN both read as Fathers of Confederation; MACDONALD reads as a novelist.
+  {
+    id: 15,
+    title: "The Island",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "PRINCE EDWARD ISLAND",
+        difficulty: 0,
+        cards: ["POTATOES", "RED SAND", "CAVENDISH", "MUSSELS"]
+      },
+      {
+        title: "ANNE OF GREEN GABLES",
+        difficulty: 1,
+        cards: ["MARILLA", "MATTHEW", "DIANA", "GILBERT"]
+      },
+      {
+        title: "CANADIAN NOVELISTS",
+        difficulty: 2,
+        cards: ["ATWOOD", "MUNRO", "ONDAATJE", "RICHLER"]
+      },
+      {
+        title: "FATHERS OF CONFEDERATION",
+        difficulty: 3,
+        cards: ["MACDONALD", "CARTIER", "BROWN", "TUPPER"]
+      }
+    ]
+  },
+
+  // Traps: POOL and FLY read as ordinary words; MIRAMICHI is both the town and the salmon river.
+  {
+    id: 16,
+    title: "Up the Miramichi",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "NEW BRUNSWICK TOWNS",
+        difficulty: 0,
+        cards: ["MONCTON", "SHEDIAC", "SACKVILLE", "MIRAMICHI"]
+      },
+      {
+        title: "SEEN ON THE BAY OF FUNDY",
+        difficulty: 1,
+        cards: ["TIDES", "MUDFLATS", "WHALES", "HOPEWELL ROCKS"]
+      },
+      {
+        title: "ACADIAN CULTURE",
+        difficulty: 2,
+        cards: ["TINTAMARRE", "CHIAC", "FRICOT", "EVANGELINE"]
+      },
+      {
+        title: "ATLANTIC SALMON FISHING",
+        difficulty: 3,
+        cards: ["GRILSE", "POOL", "FLY", "GAFF"]
+      }
+    ]
+  },
+
+  // Traps: JOE LOUIS and MAY WEST read as people; CÉGEP is a French word but belongs with the acronyms.
+  {
+    id: 17,
+    title: "Dep Run",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "MONTREAL NEIGHBOURHOODS",
+        difficulty: 0,
+        cards: ["MILE END", "VERDUN", "OUTREMONT", "GRIFFINTOWN"]
+      },
+      {
+        title: "QUÉBEC SNACK CAKES",
+        difficulty: 1,
+        cards: ["MAY WEST", "JOE LOUIS", "PASSION FLAKIE", "AH CARAMEL"]
+      },
+      {
+        title: "QUÉBEC ACRONYMS",
+        difficulty: 2,
+        cards: ["SAQ", "SAAQ", "CÉGEP", "STM"]
+      },
+      {
+        title: "FRENCH WORDS MONTREAL ANGLOS USE IN ENGLISH",
+        difficulty: 3,
+        cards: ["GUICHET", "TERRASSE", "STAGE", "DEP"]
+      }
+    ]
+  },
+
+  // Traps: LIONEL-GROULX is a historian before it is a station; LÉVESQUE names a boulevard too.
+  {
+    id: 18,
+    title: "La Belle Province",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "MONTREAL FESTIVALS",
+        difficulty: 0,
+        cards: ["OSHEAGA", "IGLOOFEST", "FRANCOFOLIES", "MUTEK"]
+      },
+      {
+        title: "QUÉBEC CHANSONNIERS",
+        difficulty: 1,
+        cards: ["VIGNEAULT", "LECLERC", "CHARLEBOIS", "FERLAND"]
+      },
+      {
+        title: "THE QUIET REVOLUTION",
+        difficulty: 2,
+        cards: ["LESAGE", "LÉVESQUE", "BILL 101", "REFERENDUM"]
+      },
+      {
+        title: "MONTREAL METRO STATIONS",
+        difficulty: 3,
+        cards: ["BERRI-UQAM", "LIONEL-GROULX", "SNOWDON", "ANGRIGNON"]
+      }
+    ]
   }
 ];
