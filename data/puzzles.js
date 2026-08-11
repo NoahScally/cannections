@@ -533,5 +533,179 @@ window.CANNECTIONS_PUZZLES = [
         cards: ["BERRI-UQAM", "LIONEL-GROULX", "SNOWDON", "ANGRIGNON"]
       }
     ]
+  },
+
+  // Traps: CARIBOU is the carnival drink, not the animal; ST-JEAN reads as the June 24 holiday.
+  {
+    id: 19,
+    title: "Bonhomme",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "QUÉBEC WINTER CARNIVAL",
+        difficulty: 0,
+        cards: ["BONHOMME", "CARIBOU", "ICE CANOE", "SNOW BATH"]
+      },
+      {
+        title: "QUÉBEC CITY LANDMARKS",
+        difficulty: 1,
+        cards: ["FRONTENAC", "CITADELLE", "MONTMORENCY", "DUFFERIN"]
+      },
+      {
+        title: "THE PLAINS OF ABRAHAM, 1759",
+        difficulty: 2,
+        cards: ["WOLFE", "MONTCALM", "SIEGE", "RAMPARTS"]
+      },
+      {
+        title: "QUÉBEC CITY NEIGHBOURHOODS NAMED FOR SAINTS",
+        difficulty: 3,
+        cards: ["ST-ROCH", "STE-FOY", "ST-JEAN", "ST-SAUVEUR"]
+      }
+    ]
+  },
+
+  // Traps: CACHE and PORTAGE read as computing and a Winnipeg street; TAPS reads as the bugle call.
+  {
+    id: 20,
+    title: "Voyageur",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "MAPLE SYRUP SEASON",
+        difficulty: 0,
+        cards: ["SUGAR SHACK", "TAFFY", "SAP", "TAPS"]
+      },
+      {
+        title: "QUÉBEC PREMIERS",
+        difficulty: 1,
+        cards: ["DUPLESSIS", "BOURASSA", "PARIZEAU", "LEGAULT"]
+      },
+      {
+        title: "QUÉBEC BRANDS",
+        difficulty: 2,
+        cards: ["ST-HUBERT", "JEAN COUTU", "COUCHE-TARD", "VACHON"]
+      },
+      {
+        title: "FUR-TRADE FRENCH THAT STUCK IN ENGLISH",
+        difficulty: 3,
+        cards: ["TOBOGGAN", "PORTAGE", "VOYAGEUR", "CACHE"]
+      }
+    ]
+  },
+
+  // Traps: ELBOW and EYEBROW read as body parts; COMBINE reads as a verb, not a machine.
+  {
+    id: 21,
+    title: "Land of Living Skies",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "SASKATCHEWAN STAPLES",
+        difficulty: 0,
+        cards: ["RIDERS", "WHEAT", "POTASH", "WASCANA"]
+      },
+      {
+        title: "HARVEST EQUIPMENT",
+        difficulty: 1,
+        cards: ["COMBINE", "SWATHER", "AUGER", "GRAIN BIN"]
+      },
+      {
+        title: "RAISED IN SASKATCHEWAN",
+        difficulty: 2,
+        cards: ["DIEFENBAKER", "DOUGLAS", "HOWE", "MITCHELL"]
+      },
+      {
+        title: "REAL SASKATCHEWAN TOWNS",
+        difficulty: 3,
+        cards: ["ELBOW", "EYEBROW", "CLIMAX", "LOVE"]
+      }
+    ]
+  },
+
+  // Traps: WINNIPEG is the Bombers' city before it is a lake; AURORA reads as the northern lights.
+  {
+    id: 22,
+    title: "Friendly Manitoba",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "CFL TEAMS",
+        difficulty: 0,
+        cards: ["BLUE BOMBERS", "ROUGHRIDERS", "TIGER-CATS", "ARGONAUTS"]
+      },
+      {
+        title: "SEEN AROUND CHURCHILL",
+        difficulty: 1,
+        cards: ["POLAR BEAR", "BELUGA", "TUNDRA", "AURORA"]
+      },
+      {
+        title: "MÉTIS HISTORY",
+        difficulty: 2,
+        cards: ["RIEL", "RED RIVER", "SASH", "BATOCHE"]
+      },
+      {
+        title: "MANITOBA LAKES",
+        difficulty: 3,
+        cards: ["WINNIPEG", "MANITOBA", "DAUPHIN", "WINNIPEGOSIS"]
+      }
+    ]
+  },
+
+  // Traps: CHINOOK reads as an Indigenous place name; HOWDY and HEIDI read as greetings.
+  {
+    id: 23,
+    title: "Wild Rose",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "ALBERTA ICONS",
+        difficulty: 0,
+        cards: ["STAMPEDE", "HOODOOS", "ROCKIES", "CHINOOK"]
+      },
+      {
+        title: "THE DRUMHELLER BADLANDS",
+        difficulty: 1,
+        cards: ["ALBERTOSAURUS", "TYRRELL", "FOSSIL", "BONEBED"]
+      },
+      {
+        title: "THE 1988 CALGARY OLYMPICS",
+        difficulty: 2,
+        cards: ["HOWDY", "HEIDI", "SADDLEDOME", "NAKISKA"]
+      },
+      {
+        title: "CREE AND BLACKFOOT PLACE NAMES",
+        difficulty: 3,
+        cards: ["WETASKIWIN", "PONOKA", "ATHABASCA", "KANANASKIS"]
+      }
+    ]
+  },
+
+  // Traps: SOURDOUGH reads as bread; PEEL and PAN read as ordinary words, not a river and a technique.
+  {
+    id: 24,
+    title: "Sixty Degrees North",
+    editor: "CAN-nections",
+    categories: [
+      {
+        title: "NORTHERN COMMUNITIES",
+        difficulty: 0,
+        cards: ["WHITEHORSE", "YELLOWKNIFE", "IQALUIT", "INUVIK"]
+      },
+      {
+        title: "THE KLONDIKE GOLD RUSH",
+        difficulty: 1,
+        cards: ["DAWSON", "SOURDOUGH", "CHILKOOT", "PAN"]
+      },
+      {
+        title: "INUIT LIFE",
+        difficulty: 2,
+        cards: ["ULU", "QAMUTIK", "AMAUTI", "IGLU"]
+      },
+      {
+        title: "NORTHERN RIVERS",
+        difficulty: 3,
+        cards: ["YUKON", "LIARD", "PEEL", "NAHANNI"]
+      }
+    ]
   }
 ];
