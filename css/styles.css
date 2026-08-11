@@ -426,10 +426,84 @@ button { font: inherit; color: inherit; }
 .sw-2 { background: var(--d2); }
 .sw-3 { background: var(--d3); }
 
+/* ── Results card ────────────────────────────────────────── */
+.results-sub {
+  margin: 0 0 4px;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* The share grid, drawn rather than typed. Reuses the difficulty ramp. */
+.grid-mini {
+  display: grid;
+  gap: 5px;
+  justify-content: center;
+  margin: 18px 0 20px;
+}
+.mini-row { display: flex; gap: 5px; }
+.mini {
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+}
+
+.results-cats {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  font-size: 0.78rem;
+}
+.results-cats li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0;
+}
+.rc-title { font-weight: 600; letter-spacing: 0.03em; }
+
+.res-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 13px 4px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: center;
+}
+.res-stat b {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.res-stat span {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.countdown {
+  margin: 16px 0 18px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+}
+.countdown b {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+
 /* ── Stats + archive ─────────────────────────────────────── */
 .stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px;
   margin: 6px 0 18px;
   padding: 14px 4px;

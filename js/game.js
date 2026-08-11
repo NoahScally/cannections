@@ -8,7 +8,8 @@
   var PUZZLES   = window.CANNECTIONS_PUZZLES || [];
   var LAUNCH    = "2026-08-11";   // day 1 of the rotation
   var MAX_MISS  = 4;
-  var STORE     = "cannections.v1";
+  var STORE     = "cannections.v2";
+  var STORE_V1  = "cannections.v1";  // migrated forward on first load, then dropped
   var SQUARES   = ["🟨", "🟩", "🟦", "🟥"]; // 🟨🟩🟦🟥
   var REPO_URL  = "https://github.com/YOUR-USERNAME/cannections";
   var SITE_URL  = "";  // filled in once you know your Pages URL; falls back to REPO_URL
@@ -61,12 +62,57 @@
   }
 
   /* ── Persistence ───────────────────────────────────────── */
-  function loadStore() {
-    try { return JSON.parse(localStorage.getItem(STORE)) || {}; }
-    catch (e) { return {}; }
+  function readKey(k) {
+    try { return JSON.parse(localStorage.getItem(k)); }
+    catch (e) { return null; }
   }
+
+  function loadStore() {
+    var cur = readKey(STORE);
+    if (cur && typeof cur === "object") return cur;
+
+    // One-time v1 → v2 migration. Players have saved games and results in the
+    // old key; carry them forward and only drop v1 once v2 is safely written.
+    var old = readKey(STORE_V1);
+    if (!old || typeof old !== "object") return {};
+
+    var next = {
+      games:    old.games   || {},
+      results:  old.results || {},
+      seenHelp: !!old.seenHelp,
+      streak:   emptyStreak()   // v1 never tracked one, so nothing is lost
+    };
+    saveStore(next);
+    if (readKey(STORE)) {
+      try { localStorage.removeItem(STORE_V1); } catch (e) {}
+    }
+    return next;
+  }
+
   function saveStore(s) {
     try { localStorage.setItem(STORE, JSON.stringify(s)); } catch (e) {}
+  }
+
+  /* ── Streaks ───────────────────────────────────────────── */
+  function emptyStreak() {
+    return { current: 0, max: 0, lastPlayedDate: null };
+  }
+
+  // A streak counts consecutive calendar DAYS PLAYED, not consecutive puzzles —
+  // three archive puzzles in one afternoon is still one day. Only the daily
+  // moves it; see recordResult.
+  function bumpStreak(store) {
+    var today = todayKey();
+    var st = store.streak || emptyStreak();
+    if (st.lastPlayedDate !== today) {
+      st.current = (st.lastPlayedDate && daysBetween(st.lastPlayedDate, today) === 1)
+        ? st.current + 1
+        : 1;
+      st.lastPlayedDate = today;
+      if (st.current > st.max) st.max = st.current;
+    }
+    store.streak = st;
+    return st;
   }
 
   /* ── State ─────────────────────────────────────────────── */
@@ -88,7 +134,14 @@
     share:    document.getElementById("btn-share"),
     next:     document.getElementById("btn-next"),
     archive:  document.getElementById("archive-grid"),
-    stats:    document.getElementById("stats")
+    stats:    document.getElementById("stats"),
+
+    resTitle: document.getElementById("results-title"),
+    resSub:   document.getElementById("results-sub"),
+    resGrid:  document.getElementById("results-grid"),
+    resCats:  document.getElementById("results-cats"),
+    resStats: document.getElementById("results-stats"),
+    countdown: document.getElementById("countdown")
   };
 
   function allCards(p) {
@@ -145,8 +198,12 @@
   function recordResult(won) {
     var s = loadStore();
     s.results = s.results || {};
-    if (s.results["p" + puzzle.id]) return;  // don't double-count
-    s.results["p" + puzzle.id] = { won: won, mistakes: mistakes, date: todayKey() };
+    // The streak tracks "played the daily today", win or lose, and is idempotent
+    // within a day — so it moves even if this puzzle already has a result row.
+    if (isDaily) bumpStreak(s);
+    if (!s.results["p" + puzzle.id]) {     // don't double-count
+      s.results["p" + puzzle.id] = { won: won, mistakes: mistakes, date: todayKey() };
+    }
     saveStore(s);
   }
 
@@ -282,12 +339,85 @@
     render();
     el.controls.hidden = true;
     el.endgame.hidden  = false;
-    if (!restoring) toast(won ? winMessage() : "Next time, bud.");
+    // Reloading a finished board restores it quietly; only a fresh finish
+    // earns the results card.
+    if (!restoring) {
+      renderResults(won);
+      openModal("modal-results");
+    }
   }
 
   function winMessage() {
     var m = ["Beauty.", "Give 'er.", "That's a snipe.", "Top shelf.", "Not bad, eh?"];
     return m[mistakes] || m[0];
+  }
+
+  /* ── Results card ──────────────────────────────────────── */
+  function renderResults(won) {
+    el.resTitle.textContent = won ? winMessage() : "Next time, bud.";
+    el.resSub.textContent = "CAN-nections No. " + puzzle.id + " · " +
+      (won
+        ? (mistakes === 0 ? "perfect" : mistakes + (mistakes === 1 ? " mistake" : " mistakes"))
+        : "out of mistakes");
+
+    // The share grid, drawn instead of typed.
+    el.resGrid.innerHTML = "";
+    history.forEach(function (row) {
+      var r = document.createElement("div");
+      r.className = "mini-row";
+      row.forEach(function (d) {
+        var c = document.createElement("span");
+        c.className = "mini d-" + d;
+        r.appendChild(c);
+      });
+      el.resGrid.appendChild(r);
+    });
+
+    el.resCats.innerHTML = "";
+    puzzle.categories.slice()
+      .sort(function (a, b) { return a.difficulty - b.difficulty; })
+      .forEach(function (c) {
+        var li = document.createElement("li");
+        li.innerHTML = '<span class="sw sw-' + c.difficulty + '"></span><span class="rc-title"></span>';
+        li.querySelector(".rc-title").textContent = c.title;
+        el.resCats.appendChild(li);
+      });
+
+    var st = loadStore().streak || emptyStreak();
+    el.resStats.innerHTML = "";
+    [["Mistakes", mistakes],
+     ["Streak", st.current],
+     ["Max streak", st.max]
+    ].forEach(function (pair) {
+      var d = document.createElement("div");
+      d.className = "res-stat";
+      d.innerHTML = "<b></b><span></span>";
+      d.querySelector("b").textContent = pair[1];
+      d.querySelector("span").textContent = pair[0];
+      el.resStats.appendChild(d);
+    });
+  }
+
+  /* ── Countdown to the next puzzle (local midnight) ─────── */
+  var countdownTimer = null;
+
+  function tickCountdown() {
+    if (!el.countdown) return;
+    var now  = new Date();
+    var next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    var s    = Math.max(0, Math.floor((next - now) / 1000));
+    var pad  = function (n) { return String(n).padStart(2, "0"); };
+    el.countdown.textContent =
+      pad(Math.floor(s / 3600)) + ":" + pad(Math.floor(s / 60) % 60) + ":" + pad(s % 60);
+  }
+
+  function startCountdown() {
+    tickCountdown();
+    countdownTimer = setInterval(tickCountdown, 1000);
+  }
+
+  function stopCountdown() {
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
   }
 
   /* ── Share ─────────────────────────────────────────────── */
@@ -376,11 +506,15 @@
       return results[k].won && results[k].mistakes === 0;
     }).length;
 
+    var st = s.streak || emptyStreak();
+
     el.stats.innerHTML = "";
     [["Played", played],
      ["Won", wins],
      ["Win %", played ? Math.round(wins / played * 100) : 0],
-     ["Perfect", perfect]
+     ["Perfect", perfect],
+     ["Streak", st.current],
+     ["Max", st.max]
     ].forEach(function (pair) {
       var d = document.createElement("div");
       d.className = "stat";
@@ -392,14 +526,20 @@
   }
 
   /* ── Modals ────────────────────────────────────────────── */
+  var MODALS = ["modal-help", "modal-archive", "modal-results"];
+
   function openModal(id) {
+    closeModals();                       // only ever one open at a time
     if (id === "modal-archive") buildArchive();
     document.getElementById(id).hidden = false;
+    if (id === "modal-results") startCountdown();
   }
   function closeModals() {
-    ["modal-help", "modal-archive"].forEach(function (id) {
-      document.getElementById(id).hidden = true;
+    MODALS.forEach(function (id) {
+      var m = document.getElementById(id);
+      if (m) m.hidden = true;
     });
+    stopCountdown();
   }
 
   /* ── Wiring ────────────────────────────────────────────── */
@@ -412,6 +552,10 @@
   el.deselect.addEventListener("click", function () { selected = []; render(); });
   el.share.addEventListener("click", share);
   el.next.addEventListener("click", function () { openModal("modal-archive"); });
+
+  document.getElementById("btn-share-modal").addEventListener("click", share);
+  document.getElementById("btn-archive-modal")
+    .addEventListener("click", function () { openModal("modal-archive"); });
 
   document.getElementById("btn-help").addEventListener("click", function () { openModal("modal-help"); });
   document.getElementById("btn-archive").addEventListener("click", function () { openModal("modal-archive"); });

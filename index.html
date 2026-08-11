@@ -81,6 +81,29 @@
   </div>
 </div>
 
+<!-- ── Results ─────────────────────────────────────────────── -->
+<div class="modal" id="modal-results" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="results-title">
+    <button class="modal-x" data-close aria-label="Close">&times;</button>
+    <h2 id="results-title"></h2>
+    <p class="results-sub" id="results-sub"></p>
+
+    <!-- The share grid, drawn rather than typed -->
+    <div class="grid-mini" id="results-grid" aria-hidden="true"></div>
+
+    <ul class="results-cats" id="results-cats"></ul>
+
+    <div class="res-stats" id="results-stats"></div>
+
+    <p class="countdown">Next puzzle in <b id="countdown">--:--:--</b></p>
+
+    <div class="controls">
+      <button class="btn btn-primary" id="btn-share-modal">Share result</button>
+      <button class="btn" id="btn-archive-modal">Play another</button>
+    </div>
+  </div>
+</div>
+
 <!-- ── Archive ─────────────────────────────────────────────── -->
 <div class="modal" id="modal-archive" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="archive-title">

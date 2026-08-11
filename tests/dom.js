@@ -28,8 +28,10 @@ const t = (label, cond) => {
   if (!cond) failures++;
 };
 
-/* Boot a fresh page sharing a given localStorage backing store. */
-function boot(mem) {
+/* Boot a fresh page sharing a given localStorage backing store.
+   Pass `isoDay` ("2026-08-12") to freeze the clock — that's how the streak
+   cases simulate playing on consecutive or non-consecutive days. */
+function boot(mem, isoDay) {
   const dom = new JSDOM(HTML, { runScripts: "outside-only", url: "https://example.org/" });
   const w = dom.window;
   const clip = { text: null };
@@ -44,6 +46,20 @@ function boot(mem) {
   Object.defineProperty(w.navigator, "clipboard", {
     value: { writeText: x => { clip.text = x; return Promise.resolve(); } }
   });
+  w.scrollTo = () => {};   // jsdom doesn't implement it; the archive calls it
+
+  if (isoDay) {
+    const [Y, M, D] = isoDay.split("-").map(Number);
+    const Real = w.Date;
+    // Midday, so nothing straddles a local midnight boundary.
+    const frozen = () => new Real(Y, M - 1, D, 12, 0, 0);
+    const Fake = function (...a) { return a.length ? new Real(...a) : frozen(); };
+    Fake.prototype = Real.prototype;
+    Fake.UTC = Real.UTC;
+    Fake.parse = Real.parse;
+    Fake.now = () => frozen().getTime();
+    w.Date = Fake;
+  }
 
   w.eval(PUZZLES_JS);
   w.eval(GAME_JS);
@@ -57,6 +73,13 @@ function boot(mem) {
     w, d, clip, live,
     $:  s => d.querySelector(s),
     $$: s => [...d.querySelectorAll(s)],
+    /* The puzzle on the board right now. Not the same as `live` once you've
+       clicked into the archive — that swaps the board out from under you. */
+    current() {
+      const on = [...d.querySelectorAll(".tile")].map(e => e.dataset.word);
+      return w.CANNECTIONS_PUZZLES.find(p =>
+        p.categories.every(c => c.cards.every(x => on.includes(x))));
+    },
     pick(cards) {
       d.getElementById("btn-deselect").click();
       cards.forEach(x =>
@@ -67,6 +90,17 @@ function boot(mem) {
 }
 
 const wait = ms => new Promise(r => setTimeout(r, ms));
+
+/* Solve whatever puzzle is on the board, cleanly. */
+async function solve(g) {
+  for (const cat of g.current().categories) {
+    g.pick(cat.cards);
+    g.submit();
+    await wait(1400);
+  }
+}
+
+const streakOf = mem => JSON.parse(mem["cannections.v2"]).streak;
 
 /* ── Suite 1: initial render + interaction ─────────────────── */
 async function testRender() {
@@ -107,11 +141,7 @@ async function testWin() {
   const mem = {};
   const g = boot(mem);
 
-  for (const cat of g.live.categories) {
-    g.pick(cat.cards);
-    g.submit();
-    await wait(1400);
-  }
+  await solve(g);
 
   t("all 4 categories solved", g.$$(".solved-row").length === 4);
   t("board is empty", g.$$(".tile").length === 0);
@@ -120,7 +150,21 @@ async function testWin() {
   t("solved rows carry all 4 difficulty classes",
     [0, 1, 2, 3].every(n => g.$(".solved-row.d-" + n)));
 
-  const s = JSON.parse(mem["cannections.v1"]);
+  /* Results card replaced the endgame toast */
+  t("results modal opens on a win", !g.$("#modal-results").hidden);
+  t("results grid is 4 rows of 4 squares",
+    g.$$("#results-grid .mini-row").length === 4 &&
+    g.$$("#results-grid .mini-row").every(r => r.querySelectorAll(".mini").length === 4));
+  t("results card names all 4 categories",
+    g.$$("#results-cats .rc-title").map(e => e.textContent).sort().join("|") ===
+    g.live.categories.map(c => c.title).sort().join("|"));
+  t("results card shows mistakes, streak and max",
+    g.$$("#results-stats .res-stat span").map(e => e.textContent).join() ===
+    "Mistakes,Streak,Max streak");
+  t("countdown to the next puzzle is ticking",
+    /^\d\d:\d\d:\d\d$/.test(g.$("#countdown").textContent));
+
+  const s = JSON.parse(mem["cannections.v2"]);
   t("result persisted as a win", s.results["p" + g.live.id].won === true);
   t("0 mistakes recorded", s.results["p" + g.live.id].mistakes === 0);
   t("4 guesses in history", s.games["p" + g.live.id].history.length === 4);
@@ -163,9 +207,10 @@ async function testLoss() {
   t("reveal order is easiest-to-hardest",
     g.$$(".solved-row").map(r => +r.className.match(/d-(\d)/)[1]).join() === "0,1,2,3");
 
-  const s = JSON.parse(mem["cannections.v1"]);
+  const s = JSON.parse(mem["cannections.v2"]);
   t("result persisted as a loss", s.results["p" + g.live.id].won === false);
   t("4 mistakes recorded", s.results["p" + g.live.id].mistakes === 4);
+  t("results modal opens on a loss", !g.$("#modal-results").hidden);
 
   g.$("#btn-share").click();
   await wait(80);
@@ -188,8 +233,73 @@ async function testLoss() {
   t("reload restores the finished board",
     g2.$$(".solved-row").length === 4 && g2.$$(".tile").length === 0);
   t("reload does not re-show help", g2.$("#modal-help").hidden);
+  t("reload does not re-show the results card", g2.$("#modal-results").hidden);
   t("reload does not double-count the result",
-    Object.keys(JSON.parse(mem["cannections.v1"]).results).length === 1);
+    Object.keys(JSON.parse(mem["cannections.v2"]).results).length === 1);
+}
+
+/* ── Suite 4: streaks ──────────────────────────────────────── */
+async function testStreaks() {
+  console.log("\n▸ streaks");
+  const mem = {};
+
+  await solve(boot(mem, "2026-08-11"));
+  t("first day played sets the streak to 1", streakOf(mem).current === 1);
+
+  await solve(boot(mem, "2026-08-12"));
+  t("next calendar day increments the streak", streakOf(mem).current === 2);
+
+  // Same calendar day, second sitting: replay the daily, streak must hold at 2.
+  const store = JSON.parse(mem["cannections.v2"]);
+  delete store.games;                                  // forces the daily to replay
+  mem["cannections.v2"] = JSON.stringify(store);
+  await solve(boot(mem, "2026-08-12"));
+  t("a second sitting the same day does not double-count", streakOf(mem).current === 2);
+
+  // Skip 2026-08-13 entirely.
+  await solve(boot(mem, "2026-08-14"));
+  const after = streakOf(mem);
+  t("a missed day resets the streak to 1", after.current === 1);
+  t("max streak remembers the best run", after.max === 2);
+
+  /* Archive play must never move the streak. */
+  const before = JSON.stringify(streakOf(mem));
+  const g = boot(mem, "2026-08-15");
+  g.$("#btn-archive").click();
+  const arch = g.$$(".arch").find(b => !b.className.includes("today"));
+  arch.click();
+  await solve(g);
+  t("archive play leaves the streak alone", JSON.stringify(streakOf(mem)) === before);
+  t("archive play still records a result",
+    Object.keys(JSON.parse(mem["cannections.v2"]).results).length > 1);
+}
+
+/* ── Suite 5: v1 → v2 migration ────────────────────────────── */
+async function testMigration() {
+  console.log("\n▸ v1 → v2 migration");
+  const mem = {
+    "cannections.v1": JSON.stringify({
+      games:   { p3: { order: [], solved: [], history: [], mistakes: 1, over: true } },
+      results: { p3: { won: true,  mistakes: 1, date: "2026-08-01" },
+                 p7: { won: false, mistakes: 4, date: "2026-08-02" } },
+      seenHelp: true
+    })
+  };
+
+  const g = boot(mem, "2026-08-11");
+  const v2 = JSON.parse(mem["cannections.v2"]);
+
+  t("v2 store written", !!mem["cannections.v2"]);
+  t("old results carried forward",
+    v2.results.p3.won === true && v2.results.p7.mistakes === 4);
+  t("old in-progress games carried forward", !!v2.games.p3);
+  t("seenHelp carried forward, so help stays shut", v2.seenHelp === true);
+  t("help modal not re-shown to a migrated player", g.$("#modal-help").hidden);
+  t("streak initialised", v2.streak && v2.streak.current === 0 && v2.streak.max === 0);
+  t("v1 key dropped only after v2 landed", !("cannections.v1" in mem));
+
+  g.$("#btn-archive").click();
+  t("migrated results still count in the stats", g.$(".stat b").textContent === "2");
 }
 
 /* ── Run ───────────────────────────────────────────────────── */
@@ -197,6 +307,8 @@ async function testLoss() {
   await testRender();
   await testWin();
   await testLoss();
+  await testStreaks();
+  await testMigration();
 
   console.log(failures
     ? `\nFAILED — ${failures} assertion(s).`
