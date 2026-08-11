@@ -1,0 +1,38 @@
+#!/bin/sh
+# CAN-nections pre-commit hook — the safety net under automatic pushes.
+#
+# Enable once per clone:
+#     git config core.hooksPath .githooks
+#
+# Nothing broken reaches main, whether the commit came from you or from Claude.
+
+echo "› validating puzzle archive…"
+if ! node tests/validate.js; then
+  echo ""
+  echo "✗ Commit blocked — tests/validate.js failed."
+  echo "  Fix data/puzzles.js and try again."
+  echo "  (Emergency bypass: git commit --no-verify)"
+  exit 1
+fi
+
+echo "› checking colour contrast…"
+if ! node tests/contrast.js > /dev/null 2>&1; then
+  node tests/contrast.js
+  echo ""
+  echo "✗ Commit blocked — a colour pair dropped below WCAG AA."
+  echo "  Adjust the :root variables in css/styles.css."
+  exit 1
+fi
+
+# DOM suite only runs if jsdom is installed; it self-skips otherwise.
+if [ -d node_modules/jsdom ]; then
+  echo "› running DOM suite…"
+  if ! node tests/dom.js; then
+    echo ""
+    echo "✗ Commit blocked — tests/dom.js failed."
+    exit 1
+  fi
+fi
+
+echo "✓ all checks passed"
+exit 0

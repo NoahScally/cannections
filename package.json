@@ -1,0 +1,17 @@
+{
+  "name": "cannections",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A free, open-source daily word-grouping puzzle built on Canadian references.",
+  "license": "MIT",
+  "scripts": {
+    "test": "node tests/validate.js && node tests/contrast.js && node tests/dom.js",
+    "test:data": "node tests/validate.js",
+    "test:contrast": "node tests/contrast.js",
+    "test:dom": "node tests/dom.js",
+    "serve": "npx --yes serve ."
+  },
+  "devDependencies": {
+    "jsdom": "^24.0.0"
+  }
+}

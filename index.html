@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CAN-nections — the Canadian grouping game</title>
+<meta name="description" content="A free, open-source daily word-grouping puzzle built entirely on Canadian references. Find four groups of four.">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍁</text></svg>">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="icon-btn" id="btn-archive" aria-label="Open puzzle archive" title="Archive">&#9776;</button>
+  <h1 class="wordmark"><span class="leaf" aria-hidden="true">&#127809;</span>CAN&#8209;nections</h1>
+  <button class="icon-btn" id="btn-help" aria-label="How to play" title="How to play">?</button>
+</header>
+
+<main class="wrap">
+
+  <p class="puzzle-meta">
+    <span id="meta-date"></span>
+    <span class="dot" aria-hidden="true">&middot;</span>
+    <span id="meta-number"></span>
+  </p>
+
+  <p class="prompt">Create four groups of four.</p>
+
+  <!-- Solved categories stack here, above the board -->
+  <div id="solved" class="solved" aria-live="polite"></div>
+
+  <!-- The 4x4 grid -->
+  <div id="board" class="board" role="grid" aria-label="Puzzle board"></div>
+
+  <div class="mistakes" id="mistakes-row">
+    <span class="mistakes-label">Mistakes remaining:</span>
+    <span class="pips" id="pips" aria-label="Mistakes remaining"></span>
+  </div>
+
+  <div class="controls" id="controls">
+    <button class="btn" id="btn-shuffle">Shuffle</button>
+    <button class="btn" id="btn-deselect" disabled>Deselect all</button>
+    <button class="btn btn-primary" id="btn-submit" disabled>Submit</button>
+  </div>
+
+  <div class="controls endgame" id="endgame" hidden>
+    <button class="btn btn-primary" id="btn-share">Share result</button>
+    <button class="btn" id="btn-next">Play another</button>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="assertive"></div>
+
+</main>
+
+<footer class="foot">
+  <p>Free forever. No ads, no accounts, no paywall. <a href="https://github.com/" id="repo-link" rel="noopener">Source on GitHub</a></p>
+  <p class="fine">Not affiliated with The New York Times. Puzzle format inspired by Connections; all content original.</p>
+</footer>
+
+<!-- ── How to play ─────────────────────────────────────────── -->
+<div class="modal" id="modal-help" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <button class="modal-x" data-close aria-label="Close">&times;</button>
+    <h2 id="help-title">How to play</h2>
+    <p>Find groups of four items that share something in common.</p>
+    <ul>
+      <li>Select four tiles, then hit <strong>Submit</strong> to check.</li>
+      <li>Find the four groups without making four mistakes.</li>
+      <li>Get three of four right and we'll tell you you're <em>one away</em>.</li>
+    </ul>
+    <h3>Category difficulty</h3>
+    <ul class="legend">
+      <li><span class="sw sw-0"></span> <strong>Sand</strong> — straightforward</li>
+      <li><span class="sw sw-1"></span> <strong>Sage</strong> — one extra step</li>
+      <li><span class="sw sw-2"></span> <strong>Slate</strong> — needs some CanCon knowledge</li>
+      <li><span class="sw sw-3"></span> <strong>Clay</strong> — wordplay or deep cut</li>
+    </ul>
+    <p class="fine">Careful: some tiles look like they fit more than one group. That's on purpose.</p>
+  </div>
+</div>
+
+<!-- ── Archive ─────────────────────────────────────────────── -->
+<div class="modal" id="modal-archive" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="archive-title">
+    <button class="modal-x" data-close aria-label="Close">&times;</button>
+    <h2 id="archive-title">Archive</h2>
+    <div class="stats" id="stats"></div>
+    <p class="fine">Play any puzzle. Today's is marked.</p>
+    <div class="archive-grid" id="archive-grid"></div>
+  </div>
+</div>
+
+<script src="data/puzzles.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
