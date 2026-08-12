@@ -15,20 +15,20 @@ Read `CLAUDE.md` first. It has the puzzle rules and the commit rules.
 
 Everything else depends on this working.
 
-- [ ] Confirm `git --version` and `gh auth status` both succeed. If `gh` isn't authed, stop
+- [x] Confirm `git --version` and `gh auth status` both succeed. If `gh` isn't authed, stop
       and tell Noah to run `gh auth login` (see `SETUP.md`) — don't try to authenticate for him.
-- [ ] `git init -b main` if not already a repo; `git add -A`; commit as `Initial commit`.
-- [ ] `gh repo create cannections --public --source=. --remote=origin --push`
-- [ ] Enable Pages: `gh api -X POST repos/:owner/cannections/pages -f "source[branch]=main" -f "source[path]=/"`
-- [ ] `git config core.hooksPath .githooks` so the pre-commit gate runs.
-- [ ] Mark the hook executable in the index so it survives a fresh clone:
+- [x] `git init -b main` if not already a repo; `git add -A`; commit as `Initial commit`.
+- [x] `gh repo create cannections --public --source=. --remote=origin --push`
+- [x] Enable Pages: `gh api -X POST repos/:owner/cannections/pages -f "source[branch]=main" -f "source[path]=/"`
+- [x] `git config core.hooksPath .githooks` so the pre-commit gate runs.
+- [x] Mark the hook executable in the index so it survives a fresh clone:
       `git update-index --chmod=+x .githooks/pre-commit`
-- [ ] `npm install` (pulls jsdom for the DOM suite).
-- [ ] `npm test` — all three suites must be green before you go further.
-- [ ] Read back the live Pages URL and put it in `js/game.js`: set `SITE_URL` to the Pages
+- [x] `npm install` (pulls jsdom for the DOM suite).
+- [x] `npm test` — all three suites must be green before you go further.
+- [x] Read back the live Pages URL and put it in `js/game.js`: set `SITE_URL` to the Pages
       URL and `REPO_URL` to the repo URL. Both are placeholders right now and the share
       button is emitting a fake link.
-- [ ] Commit `Point share links at the live site`, push.
+- [x] Commit `Point share links at the live site`, push.
 
 **Done when:** the game loads at `https://<user>.github.io/cannections/`, and the share
 button produces a link that actually resolves.
@@ -40,24 +40,24 @@ button produces a link that actually resolves.
 Currently 12. The rotation repeats every 12 days, which is too tight — a regular player
 sees a repeat inside a fortnight.
 
-- [ ] Read all 12 existing puzzles in `data/puzzles.js` before writing anything. Note which
+- [x] Read all 12 existing puzzles in `data/puzzles.js` before writing anything. Note which
       categories, regions and eras are already used. **Do not repeat a category concept.**
-- [ ] Write 18 new puzzles, ids 13–30. Follow the authoring rules in `CLAUDE.md`.
-- [ ] Budget them deliberately across regions so the archive isn't Toronto-shaped:
+- [x] Write 18 new puzzles, ids 13–30. Follow the authoring rules in `CLAUDE.md`.
+- [x] Budget them deliberately across regions so the archive isn't Toronto-shaped:
       - 4 Atlantic (Newfoundland, Nova Scotia, PEI, New Brunswick)
       - 4 Québec (including at least one built on Québécois French in everyday English)
       - 4 Prairies + North (Yukon, NWT, Nunavut, Saskatchewan, Manitoba, Alberta)
       - 3 BC / Pacific
       - 3 national or cross-country
-- [ ] Vary the subject matter too. The existing archive is heavy on food, hockey and TV.
+- [x] Vary the subject matter too. The existing archive is heavy on food, hockey and TV.
       Add: Canadian literature, Indigenous nations and languages, Canadian science and
       space, Canadian sports beyond hockey (lacrosse, CFL, curling, soccer), Canadian
       music beyond the obvious, Canadian law and civics, Canadian wildlife, Canadian
       failures and disasters (Avro Arrow, Bre-X, the Halifax Explosion).
-- [ ] For each new puzzle, write a one-line comment above it naming the intended traps.
+- [x] For each new puzzle, write a one-line comment above it naming the intended traps.
       If you can't name two, the puzzle isn't finished.
-- [ ] `npm test` after every batch of six, not at the very end.
-- [ ] Commit in batches of six: `Add puzzles 13-18`, `Add puzzles 19-24`, `Add puzzles 25-30`.
+- [x] `npm test` after every batch of six, not at the very end.
+- [x] Commit in batches of six: `Add puzzles 13-18`, `Add puzzles 19-24`, `Add puzzles 25-30`.
       Push after each.
 
 **Done when:** 30 puzzles, validator green with zero warnings, no two puzzles sharing a
@@ -69,19 +69,19 @@ category concept.
 
 The stats block counts games but has no streak, and the endgame just fires a toast.
 
-- [ ] Add current-streak and max-streak to the stored stats. A streak counts **consecutive
+- [x] Add current-streak and max-streak to the stored stats. A streak counts **consecutive
       calendar days played**, not consecutive puzzles — playing three archive puzzles in one
       afternoon is one day. Store `lastPlayedDate`; if today is `lastPlayedDate + 1`,
       increment; if it's the same day, no change; otherwise reset to 1.
-- [ ] Archive-mode games must not touch the streak. Only the daily puzzle counts.
-- [ ] Bump the storage key to `cannections.v2` and migrate `v1` data forward rather than
+- [x] Archive-mode games must not touch the streak. Only the daily puzzle counts.
+- [x] Bump the storage key to `cannections.v2` and migrate `v1` data forward rather than
       dropping it. Delete the `v1` key only after a successful migration.
-- [ ] Replace the endgame toast with a results modal: the emoji grid rendered visually, the
+- [x] Replace the endgame toast with a results modal: the emoji grid rendered visually, the
       four category names, mistakes used, current streak, and the Share button.
-- [ ] Add a countdown to the next puzzle (local midnight) in that modal.
-- [ ] Extend `tests/dom.js`: streak increments across simulated days, streak resets after a
+- [x] Add a countdown to the next puzzle (local midnight) in that modal.
+- [x] Extend `tests/dom.js`: streak increments across simulated days, streak resets after a
       gap, archive play doesn't move it, v1→v2 migration preserves the old results.
-- [ ] Commit `Add streaks and results modal`, push.
+- [x] Commit `Add streaks and results modal`, push.
 
 **Done when:** the DOM suite covers all four streak cases and passes.
 
