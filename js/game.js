@@ -11,8 +11,8 @@
   var STORE     = "cannections.v2";
   var STORE_V1  = "cannections.v1";  // migrated forward on first load, then dropped
   var SQUARES   = ["🟨", "🟩", "🟦", "🟥"]; // 🟨🟩🟦🟥
-  var REPO_URL  = "https://github.com/YOUR-USERNAME/cannections";
-  var SITE_URL  = "";  // filled in once you know your Pages URL; falls back to REPO_URL
+  var REPO_URL  = "https://github.com/NoahScally/cannections";
+  var SITE_URL  = "https://noahscally.github.io/cannections/";
 
   /* ── Dates ─────────────────────────────────────────────── */
   // Work in local time so "today" means the player's today, not UTC's.
